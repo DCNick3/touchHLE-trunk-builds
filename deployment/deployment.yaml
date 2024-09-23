@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: touchhle-trunk-builds
-          image: ghcr.io/dcnick3/touchhle-trunk-builds:ref-52200db8e4a5c041ed05b6bf4ccd3349b23a186e
+          image: ghcr.io/dcnick3/touchhle-trunk-builds:ref-425096cb02357a342964c41e1eeb864c0ee149d3
           env:
             - name: CONFIG_GITHUB__TOKEN
               valueFrom:

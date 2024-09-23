@@ -46,6 +46,7 @@ async fn handle_download(
     octocrab: &Octocrab,
     build: Build,
     artifact_name: &str,
+    should_cache: bool,
 ) -> anyhow::Result<Response<axum::body::Body>> {
     let artifact = build
         .artifacts
@@ -79,8 +80,14 @@ async fn handle_download(
         )
         // the size reported here is not accurate to the size of the zip
         // .header(http::header::CONTENT_LENGTH, artifact.size)
-        // cache indefinitely
-        .header(http::header::CACHE_CONTROL, "public, max-age=31536000")
+        .header(
+            http::header::CACHE_CONTROL,
+            if should_cache {
+                "public, max-age=31536000"
+            } else {
+                "no-cache"
+            },
+        )
         .body(body)
         .unwrap();
 
@@ -134,7 +141,7 @@ async fn main() -> anyhow::Result<()> {
 
                     let build = builds::fetch_build(&config.builds, &octocrab, run_id).await?;
 
-                    Ok::<_, AppError>(handle_download(&config, &octocrab, build, &artifact_name).await?)
+                    Ok::<_, AppError>(handle_download(&config, &octocrab, build, &artifact_name, true).await?)
                 },
             ),
         )
@@ -149,7 +156,7 @@ async fn main() -> anyhow::Result<()> {
 
                     info!("Latest build is {:?}", build);
 
-                    Ok::<_, AppError>(handle_download(&config, &octocrab, build, &artifact_name).await?)
+                    Ok::<_, AppError>(handle_download(&config, &octocrab, build, &artifact_name, false).await?)
                 },
             ),
         )

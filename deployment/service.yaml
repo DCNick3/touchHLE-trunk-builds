@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: touchHLE-trunk-builds
+  name: touchhle-trunk-builds
 spec:
   selector:
-    app: touchHLE-trunk-builds
+    app: touchhle-trunk-builds
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 3000

@@ -1,19 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: touchHLE-trunk-builds
+  name: touchhle-trunk-builds
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: touchHLE-trunk-builds
+      app: touchhle-trunk-builds
   template:
     metadata:
       labels:
-        app: touchHLE-trunk-builds
+        app: touchhle-trunk-builds
       annotations:
         instrumentation.opentelemetry.io/inject-sdk: "true"
     spec:
       containers:
-        - name: touchHLE-trunk-builds
-          image: ghcr.io/dcnick3/touchhle-trunk-builds:ref-09fb38623b64de4da25d1b1ae5407237f6d6d6d2
+        - name: touchhle-trunk-builds
+          image: ghcr.io/dcnick3/touchhle-trunk-builds:ref-1587c53142ed84d60a475e72379e987749f6aac7
+          env:
+            - name: CONFIG_GITHUB__TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: touchhle-trunk-builds-secrets
+                  key: github_token

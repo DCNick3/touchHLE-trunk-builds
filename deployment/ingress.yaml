@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: touchHLE-trunk-builds
+spec:
+  rules:
+    - host: touchhle-trunk-builds.dcnick3.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: touchHLE-trunk-builds
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - touchhle-trunk-builds.dcnick3.me

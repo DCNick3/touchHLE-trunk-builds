@@ -3,5 +3,3 @@ builds:
   repo: touchHLE
   branch: trunk
   artifact_prefix: touchHLE_
-http:
-  port: 3000
